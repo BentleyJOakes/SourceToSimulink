@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<GCC_XML cvs_revision="1.135">
+  <Namespace id="_1" name="::" members="_3 _4 _5 _6 _7 _2 _8 _9 _10 " mangled="_Z2::" demangled="::"/>
+  <Namespace id="_2" name="std" context="_1" members="" mangled="_Z3std" demangled="std"/>
+  <Function id="_3" name="main" returns="_11" context="_1" location="f0:35" file="f0" line="35" endline="0"/>
+  <Variable id="_4" name="Gain_Gain" type="_12" init="5.0e+0f" context="_1" location="f0:2" file="f0" line="2"/>
+  <Namespace id="_5" name="__cxxabiv1" context="_1" members="" mangled="_Z10__cxxabiv1" demangled="__cxxabiv1"/>
+  <Variable id="_6" name="Const1_U" type="_12" init="1.03999996185302734375e+1f" context="_1" location="f0:7" file="f0" line="7"/>
+  <Variable id="_7" name="out" type="_12" init="0.0f" context="_1" location="f0:9" file="f0" line="9"/>
+  <Function id="_8" name="Const1_step" returns="_13" context="_1" mangled="_Z11Const1_stepv" demangled="Const1_step()" location="f0:12" file="f0" line="12" endline="30"/>
+  <Variable id="_9" name="Constant_Value" type="_12" init="1.230000019073486328125e+1f" context="_1" location="f0:4" file="f0" line="4"/>
+  <Variable id="_10" name="Constant1_Value" type="_12" init="3.45e+1f" context="_1" location="f0:6" file="f0" line="6"/>
+  <FundamentalType id="_11" name="int" size="32" align="32"/>
+  <FundamentalType id="_12" name="float" size="32" align="32"/>
+  <FundamentalType id="_13" name="void" align="8"/>
+  <File id="f0" name="test_code.c"/>
+</GCC_XML>
