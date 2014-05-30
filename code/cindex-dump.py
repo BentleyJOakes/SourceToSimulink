@@ -11,6 +11,13 @@
 from clang.cindex import *
 from pprint import pprint
 from to_xml import *
+
+#make new token class to handle equality
+from token import *
+
+import re
+
+
 """
 A simple command line tool for dumping a source file using the Clang Index
 Library.
@@ -37,28 +44,23 @@ def get_cursor_id(cursor, cursor_list = []):
         if cursor == c:
             return i
     cursor_list.append(cursor)
-    return len(cursor_list) - 1
-
-def print_value(node):
-
-    literals = [CursorKind.INTEGER_LITERAL, CursorKind.FLOATING_LITERAL, CursorKind.IMAGINARY_LITERAL, CursorKind.STRING_LITERAL, CursorKind.CHARACTER_LITERAL]
-
-    if not node.kind in literals:
-        return ''
-    
-    for t in node.get_tokens():
-        if t.kind == TokenKind.LITERAL:
-            return t.spelling
-
-    return ''
-    
+    return len(cursor_list) - 1   
     
 def get_tokens(node):
     tokens = []
     for t in node.get_tokens():
-        tokens.append(t)
+        token = Token(t)
+        tokens.append(token)
     return tokens
     
+def get_location(node):
+    loc = str(node.location)
+    loc = re.sub('["\'>,]', '', loc)
+    loc_array = loc.split(' ')
+    if loc_array[2] == 'None':
+        return None
+    return loc_array[2] + ":" + loc_array[4] + "," + loc_array[6] 
+
 def get_info(node, depth=0):
     if opts.maxDepth is not None and depth >= opts.maxDepth:
         children = None
@@ -68,12 +70,11 @@ def get_info(node, depth=0):
                      
     return { #'id' : get_cursor_id(node),
              'kind' : node.kind,
-             'value' : print_value(node),
              #'usr' : node.get_usr(),
              'spelling' : node.spelling,
-             'location' : node.location,
-             'extent.start' : node.extent.start,
-             'extent.end' : node.extent.end,
+             'location' : get_location(node),
+             #'extent.start' : node.extent.start,
+             #'extent.end' : node.extent.end,
              #'is_definition' : node.is_definition(),
              #'definition_id' : get_cursor_id(node.get_definition()),
              'children' : children,
