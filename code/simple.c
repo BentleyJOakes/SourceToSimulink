@@ -3,11 +3,8 @@
 
 int main()
 {
-    int four = 4;
-    int three = four * 3;
+    float a = 4.5;
+    int b = a * 3 / 2;
     
-    for (int i=0; i < 10; i++)
-    {
-        four = three + i;
-    }
+    
 }

@@ -52,12 +52,20 @@ def print_value(node):
 
     return ''
     
+    
+def get_tokens(node):
+    tokens = []
+    for t in node.get_tokens():
+        tokens.append(t)
+    return tokens
+    
 def get_info(node, depth=0):
     if opts.maxDepth is not None and depth >= opts.maxDepth:
         children = None
     else:
         children = [get_info(c, depth+1)
                     for c in node.get_children()]
+                     
     return { #'id' : get_cursor_id(node),
              'kind' : node.kind,
              'value' : print_value(node),
@@ -67,9 +75,9 @@ def get_info(node, depth=0):
              'extent.start' : node.extent.start,
              'extent.end' : node.extent.end,
              #'is_definition' : node.is_definition(),
-             #'definition id' : get_cursor_id(node.get_definition()),
+             #'definition_id' : get_cursor_id(node.get_definition()),
              'children' : children,
-             'tokens' : node.get_tokens() }
+             'tokens' : get_tokens(node) }
 
 def main():
     from clang.cindex import Index
@@ -98,9 +106,12 @@ def main():
     if not tu:
         parser.error("unable to load input")
 
+    #print("Starting to get info")
+
+
     #pprint(('diags', map(get_diag_info, tu.diagnostics)))
     program = get_info(tu.cursor)
-    write_xml(program)
+    write_xml(program, args[0])
 
 if __name__ == '__main__':
     main()
