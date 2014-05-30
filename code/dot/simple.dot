@@ -1,11 +1,11 @@
 digraph simple {
 "0 - Constant\n Value = 4.5" [style=filled, fillcolor=lightblue];
 "1 - Constant\n Value = 3" [style=filled, fillcolor=lightblue];
-"2 - /" [style=filled, fillcolor=lightblue];
+"2 - *" [style=filled, fillcolor=lightblue];
 "3 - Constant\n Value = 2" [style=filled, fillcolor=lightblue];
 "4 - /" [style=filled, fillcolor=lightblue];
-"0 - Constant\n Value = 4.5" -> "2 - /";
-"1 - Constant\n Value = 3" -> "2 - /";
-"2 - /" -> "4 - /";
+"0 - Constant\n Value = 4.5" -> "2 - *";
+"1 - Constant\n Value = 3" -> "2 - *";
+"2 - *" -> "4 - /";
 "3 - Constant\n Value = 2" -> "4 - /";
 }

@@ -15,13 +15,13 @@
 <text text-anchor="middle" x="60" y="-192.8" font-family="Times,serif" font-size="14.00">0 &#45; Constant</text>
 <text text-anchor="middle" x="60" y="-177.8" font-family="Times,serif" font-size="14.00"> Value = 4.5</text>
 </g>
-<!-- 2 &#45; / -->
-<g id="node3" class="node"><title>2 &#45; /</title>
-<ellipse fill="lightblue" stroke="black" cx="129" cy="-99" rx="27" ry="18"/>
-<text text-anchor="middle" x="129" y="-95.3" font-family="Times,serif" font-size="14.00">2 &#45; /</text>
+<!-- 2 &#45; * -->
+<g id="node3" class="node"><title>2 &#45; *</title>
+<ellipse fill="lightblue" stroke="black" cx="129" cy="-99" rx="26.949" ry="18"/>
+<text text-anchor="middle" x="129" y="-95.3" font-family="Times,serif" font-size="14.00">2 &#45; *</text>
 </g>
-<!-- 0 &#45; Constant\n Value = 4.5&#45;&gt;2 &#45; / -->
-<g id="edge1" class="edge"><title>0 &#45; Constant\n Value = 4.5&#45;&gt;2 &#45; /</title>
+<!-- 0 &#45; Constant\n Value = 4.5&#45;&gt;2 &#45; * -->
+<g id="edge1" class="edge"><title>0 &#45; Constant\n Value = 4.5&#45;&gt;2 &#45; *</title>
 <path fill="none" stroke="black" d="M79.2203,-163.487C89.0697,-150.926 101.001,-135.709 110.714,-123.322"/>
 <polygon fill="black" stroke="black" points="113.614,-125.295 117.03,-115.266 108.106,-120.975 113.614,-125.295"/>
 </g>
@@ -31,8 +31,8 @@
 <text text-anchor="middle" x="198" y="-192.8" font-family="Times,serif" font-size="14.00">1 &#45; Constant</text>
 <text text-anchor="middle" x="198" y="-177.8" font-family="Times,serif" font-size="14.00"> Value = 3</text>
 </g>
-<!-- 1 &#45; Constant\n Value = 3&#45;&gt;2 &#45; / -->
-<g id="edge2" class="edge"><title>1 &#45; Constant\n Value = 3&#45;&gt;2 &#45; /</title>
+<!-- 1 &#45; Constant\n Value = 3&#45;&gt;2 &#45; * -->
+<g id="edge2" class="edge"><title>1 &#45; Constant\n Value = 3&#45;&gt;2 &#45; *</title>
 <path fill="none" stroke="black" d="M178.78,-163.487C168.93,-150.926 156.999,-135.709 147.286,-123.322"/>
 <polygon fill="black" stroke="black" points="149.894,-120.975 140.97,-115.266 144.386,-125.295 149.894,-120.975"/>
 </g>
@@ -41,8 +41,8 @@
 <ellipse fill="lightblue" stroke="black" cx="181" cy="-18" rx="27" ry="18"/>
 <text text-anchor="middle" x="181" y="-14.3" font-family="Times,serif" font-size="14.00">4 &#45; /</text>
 </g>
-<!-- 2 &#45; /&#45;&gt;4 &#45; / -->
-<g id="edge3" class="edge"><title>2 &#45; /&#45;&gt;4 &#45; /</title>
+<!-- 2 &#45; *&#45;&gt;4 &#45; / -->
+<g id="edge3" class="edge"><title>2 &#45; *&#45;&gt;4 &#45; /</title>
 <path fill="none" stroke="black" d="M139.523,-82.0132C146.83,-70.9114 156.702,-55.9136 164.982,-43.3349"/>
 <polygon fill="black" stroke="black" points="168.096,-44.9707 170.67,-34.6934 162.248,-41.122 168.096,-44.9707"/>
 </g>

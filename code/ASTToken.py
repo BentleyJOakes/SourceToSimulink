@@ -1,4 +1,4 @@
-class Token:
+class ASTToken:
 
     def __init__(self, t):
         self.kind = str(t.kind)

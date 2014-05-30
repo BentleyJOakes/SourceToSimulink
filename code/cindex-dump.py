@@ -13,7 +13,7 @@ from pprint import pprint
 from to_xml import *
 
 #make new token class to handle equality
-from token import *
+from ASTtoken import *
 
 import re
 
@@ -49,7 +49,7 @@ def get_cursor_id(cursor, cursor_list = []):
 def get_tokens(node):
     tokens = []
     for t in node.get_tokens():
-        token = Token(t)
+        token = ASTToken(t)
         tokens.append(token)
     return tokens
     
