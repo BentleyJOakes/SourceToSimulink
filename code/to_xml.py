@@ -77,6 +77,8 @@ def write_node(node, parent):
         #could be 'long long'
         tokens_to_use.append(remove_token_kind("TokenKind.KEYWORD", tokens, required = False))
         
+        tokens_to_use.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, required = False, spelling = '*'))
+        
         tokens_to_use.append(remove_token_kind("TokenKind.IDENTIFIER", tokens))
         
     
@@ -89,9 +91,16 @@ def write_node(node, parent):
         
     elif node_kind == "CursorKind.COMPOUND_STMT":
     
-        #TODO: Handle comments
+        
         used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '{'))
         used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '}'))
+        
+        
+        while True:
+            t = remove_token_kind("TokenKind.COMMENT", tokens, required = False)
+            if t == None:
+                break
+            tokens_to_use.append(t)
         
     elif node_kind == "CursorKind.PAREN_EXPR":
         used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '('))
@@ -99,12 +108,12 @@ def write_node(node, parent):
         
     elif node_kind == "CursorKind.IF_STMT":
     
-        #TODO: IF and ELSE and ELSE IF
-    
         #remove 'if' and '(' and ')' but don't output to XML
         used_tokens.append(remove_token_kind("TokenKind.KEYWORD", tokens, spelling = 'if'))
         used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '('))
         used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ')'))
+        
+        used_tokens.append(remove_token_kind("TokenKind.KEYWORD", tokens, spelling = 'else', required = 'false'))
         
     elif node_kind == "CursorKind.FOR_STMT":
         used_tokens.append(remove_token_kind("TokenKind.KEYWORD", tokens, spelling = 'for'))
@@ -122,25 +131,26 @@ def write_node(node, parent):
         used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '('))
         
         #remove all commas from the call expression
-        t = remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ',', required = False)
-        if not t == None:
+        while True:
+            t = remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ',', required = False)
+            if t == None:
+                break
             used_tokens.append(t)
-            while not remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ',', required = False) == None:
-                used_tokens.append(t)
+            
         used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ')'))
         used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ';', required = False))
         
     elif node_kind == "CursorKind.PARM_DECL":
     
-    #TODO:
-#    CursorKind.PARM_DECL
-#	Found: TokenKind.KEYWORD : char
-#	Found: TokenKind.IDENTIFIER : argv
-#		TokenKind.PUNCTUATION : *
-#		TokenKind.PUNCTUATION : [
-#		TokenKind.PUNCTUATION : ]
+
         tokens_to_use.append(remove_token_kind("TokenKind.KEYWORD", tokens))
         tokens_to_use.append(remove_token_kind("TokenKind.IDENTIFIER", tokens))
+        
+        #keep pointer and array info
+        tokens_to_use.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, required = False, spelling = '&'))
+        tokens_to_use.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, required = False, spelling = '*'))
+        tokens_to_use.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, required = False, spelling = '['))
+        tokens_to_use.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, required = False, spelling = ']'))
         
         used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, required = False, spelling = ','))
         
@@ -164,6 +174,7 @@ def write_node(node, parent):
         used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '}', required = False))
         
     #mark the token as consumed and output it to XML
+    #keep ordering of tokens
     for t in tokens_to_use:
         if t == None:
             continue
@@ -177,10 +188,10 @@ def write_node(node, parent):
     return used_tokens
     
 
-def remove_token_kind(kind, tokens, reverse = False, required = True, spelling = None ):
+def remove_token_kind(kind, tokens, reverse = False, required = True, spelling = None):
     if reverse:
         tokens = reversed(tokens)
-
+    
     for t in tokens:
         #make sure kind matches, and potentially do a spelling check (for punctuation)
         if t.kind == kind and (spelling == None or t.spelling == spelling):
