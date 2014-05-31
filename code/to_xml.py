@@ -22,7 +22,14 @@ def write_node(node, parent):
         
     #get unique set of tokens
     tokens = node['tokens']
+    
+    #for t in tokens:
+    #    print("==\t\t" + str(t))
+        
+        
     for t in used_tokens:
+        if t == None:
+            continue
         tokens.remove(t)
     
     for attrib in node:
@@ -42,45 +49,127 @@ def write_node(node, parent):
     print(node_kind)
     
     tokens_to_use = []
+    
+    
+    
     if "LITERAL" in node_kind:
-        tokens_to_use.append(remove_token_kind("TokenKind.LITERAL", tokens))
+        if node_kind == "CursorKind.CXX_BOOL_LITERAL_EXPR":
+            #needs to find true/false
+            #note that this is C++
+            tokens_to_use.append(remove_token_kind("TokenKind.KEYWORD", tokens))
+        else:
+            tokens_to_use.append(remove_token_kind("TokenKind.LITERAL", tokens))
     
     elif node_kind == "CursorKind.DECL_REF_EXPR":
         tokens_to_use.append(remove_token_kind("TokenKind.IDENTIFIER", tokens))
         
-    elif node_kind == "CursorKind.BINARY_OPERATOR":
+    elif node_kind == "CursorKind.BINARY_OPERATOR" or node_kind == "CursorKind.UNARY_OPERATOR":
         tokens_to_use.append(remove_token_kind("TokenKind.PUNCTUATION", tokens))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, required = False, spelling = ';'))
+    
+    elif node_kind == "CursorKind.DECL_STMT":
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '='))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ';', required = False))
         
     elif node_kind == "CursorKind.VAR_DECL":
         tokens_to_use.append(remove_token_kind("TokenKind.KEYWORD", tokens))
+        
+        #could be 'long long'
+        tokens_to_use.append(remove_token_kind("TokenKind.KEYWORD", tokens, required = False))
+        
         tokens_to_use.append(remove_token_kind("TokenKind.IDENTIFIER", tokens))
         
-    elif node_kind == "CursorKind.DECL_STMT":
-        #remove '=' and ';' but don't output to XML
+    
+        
+    elif node_kind == "CursorKind.COMPOUND_ASSIGNMENT_OPERATOR":
+        #examples: '/=', '+='
         used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens))
-        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ';'))
+        
         
     elif node_kind == "CursorKind.COMPOUND_STMT":
-        #remove '{' and '}' but don't output to XML
-        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens))
-        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens))
+    
+        #TODO: Handle comments
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '{'))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '}'))
+        
+    elif node_kind == "CursorKind.PAREN_EXPR":
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '('))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ')'))
+        
+    elif node_kind == "CursorKind.IF_STMT":
+    
+        #TODO: IF and ELSE and ELSE IF
+    
+        #remove 'if' and '(' and ')' but don't output to XML
+        used_tokens.append(remove_token_kind("TokenKind.KEYWORD", tokens, spelling = 'if'))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '('))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ')'))
+        
+    elif node_kind == "CursorKind.FOR_STMT":
+        used_tokens.append(remove_token_kind("TokenKind.KEYWORD", tokens, spelling = 'for'))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '('))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ';', required = False))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ';', required = False))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ')'))
+        
+    elif node_kind == "CursorKind.WHILE_STMT":
+        used_tokens.append(remove_token_kind("TokenKind.KEYWORD", tokens, spelling = 'while'))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '('))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ')'))
+        
+    elif node_kind == "CursorKind.CALL_EXPR":
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '('))
+        
+        #remove all commas from the call expression
+        t = remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ',', required = False)
+        if not t == None:
+            used_tokens.append(t)
+            while not remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ',', required = False) == None:
+                used_tokens.append(t)
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ')'))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ';', required = False))
+        
+    elif node_kind == "CursorKind.PARM_DECL":
+    
+    #TODO:
+#    CursorKind.PARM_DECL
+#	Found: TokenKind.KEYWORD : char
+#	Found: TokenKind.IDENTIFIER : argv
+#		TokenKind.PUNCTUATION : *
+#		TokenKind.PUNCTUATION : [
+#		TokenKind.PUNCTUATION : ]
+        tokens_to_use.append(remove_token_kind("TokenKind.KEYWORD", tokens))
+        tokens_to_use.append(remove_token_kind("TokenKind.IDENTIFIER", tokens))
+        
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, required = False, spelling = ','))
+        
+    elif node_kind == "CursorKind.BREAK_STMT":
+        tokens_to_use.append(remove_token_kind("TokenKind.KEYWORD", tokens, spelling = 'break'))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ';'))    
+        
+    elif node_kind == "CursorKind.RETURN_STMT":
+        tokens_to_use.append(remove_token_kind("TokenKind.KEYWORD", tokens, spelling = 'return'))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ';'))
         
     elif node_kind == "CursorKind.FUNCTION_DECL":
         tokens_to_use.append(remove_token_kind("TokenKind.KEYWORD", tokens))
         tokens_to_use.append(remove_token_kind("TokenKind.IDENTIFIER", tokens))
         
-        #TODO: Need to handle arguements
-        #remove '{' and '}' but don't output to XML
-        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens))
-        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens))
+        #from params
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '(', required = False))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ')', required = False))
+        
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '{', required = False))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '}', required = False))
         
     #mark the token as consumed and output it to XML
-    for t in tokens_to_use:    
+    for t in tokens_to_use:
+        if t == None:
+            continue
+        
         node_xml.set(t.kind, t.spelling)
         used_tokens.append(t)
-        
-        print("\tFound: " + str(t))
-        
         
     for t in tokens:
         print("\t\t" + str(t))
@@ -88,14 +177,19 @@ def write_node(node, parent):
     return used_tokens
     
 
-def remove_token_kind(kind, tokens, reverse = False):
+def remove_token_kind(kind, tokens, reverse = False, required = True, spelling = None ):
     if reverse:
         tokens = reversed(tokens)
 
     for t in tokens:
-        if t.kind == kind:
+        #make sure kind matches, and potentially do a spelling check (for punctuation)
+        if t.kind == kind and (spelling == None or t.spelling == spelling):
             tokens.remove(t)
+            print("\tFound: " + str(t))
             return t
+            
+    if required:
+        raise ValueError('Kind: ' + kind + ' was not found in the token list. Spelling: ' + str(spelling))
     return None
         
         

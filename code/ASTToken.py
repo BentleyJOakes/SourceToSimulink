@@ -5,7 +5,7 @@ class ASTToken:
         self.spelling = str(t.spelling)
         
     def __eq__(self, obj):
-        return isinstance(obj, Token) and obj.kind == self.kind and obj.spelling == self.spelling 
+        return isinstance(obj, ASTToken) and obj.kind == self.kind and obj.spelling == self.spelling 
     
     def __ne__(self, obj):
         return not self == obj

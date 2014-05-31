@@ -1,2 +1,2 @@
-python2 cindex-dump.py simple.c
-python2 build_model.py simple.c.xml
+python2 cindex-dump.py witnesses.cpp
+#python2 build_model.py simple.c.xml

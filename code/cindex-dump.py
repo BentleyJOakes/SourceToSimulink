@@ -13,7 +13,7 @@ from pprint import pprint
 from to_xml import *
 
 #make new token class to handle equality
-from ASTtoken import *
+from ASTToken import *
 
 import re
 
