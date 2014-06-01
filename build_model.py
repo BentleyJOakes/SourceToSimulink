@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 
-from himesis import Himesis
-from himesis_utils import graph_to_dot
+from himesis.himesis import Himesis
+from himesis.himesis_utils import graph_to_dot
 
 class ModelBuilder:
 
@@ -138,7 +138,20 @@ class ModelBuilder:
             
 def main():
 
-    filename = "simple.c.xml"
+    from optparse import OptionParser, OptionGroup
+
+    global opts
+
+    parser = OptionParser("usage: %prog [options] {filename}")
+    
+    parser.disable_interspersed_args()
+    (opts, args) = parser.parse_args()
+
+    if len(args) == 0:
+        parser.error('invalid number arguments')
+
+
+    filename = args[0]
     
     mb = ModelBuilder()
     mb.build(filename)
