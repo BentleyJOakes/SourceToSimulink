@@ -49,7 +49,7 @@ class ModelBuilder:
         
         print(child_results)            
         
-        
+        #empty
         if node_kind in ["CursorKind.INTEGER_LITERAL", "CursorKind.FLOATING_LITERAL"]:
             literal = node.get('TokenKind.LITERAL')
             
