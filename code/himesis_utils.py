@@ -122,7 +122,7 @@ def graph_to_dot(name, g, verbosity = 0):
 
                 
             if 'value' in v.attributes() and not v['value'] == None:
-                vattr += get_attribute("\\n Value = ", v['value'])
+                vattr += get_attribute("\\n", v['value'])
 
                 
             if 'gain' in v.attributes() and not v['gain'] == None:

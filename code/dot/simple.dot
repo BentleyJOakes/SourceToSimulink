@@ -1,17 +1,15 @@
 digraph simple {
-"0 - Constant\n Value = 3" [style=filled, fillcolor=lightblue];
-"1 - Constant\n Value = 4" [style=filled, fillcolor=lightblue];
-"2 - >" [style=filled, fillcolor=lightblue];
-"3 - Constant\n Value = 1" [style=filled, fillcolor=lightblue];
-"4 - Constant\n Value = 98" [style=filled, fillcolor=lightblue];
-"5 - <" [style=filled, fillcolor=lightblue];
-"6 - Constant\n Value = 34" [style=filled, fillcolor=lightblue];
-"7 - Constant\n Value = 100" [style=filled, fillcolor=lightblue];
-"8 - +" [style=filled, fillcolor=lightblue];
-"0 - Constant\n Value = 3" -> "2 - >";
-"1 - Constant\n Value = 4" -> "2 - >";
-"1 - Constant\n Value = 4" -> "5 - <";
-"4 - Constant\n Value = 98" -> "5 - <";
-"7 - Constant\n Value = 100" -> "8 - +";
-"3 - Constant\n Value = 1" -> "8 - +";
+"0 - Gain\nint a" [style=filled, fillcolor=lightblue];
+"1 - Constant\n100" [style=filled, fillcolor=lightblue];
+"2 - Constant\n50" [style=filled, fillcolor=lightblue];
+"3 - Operator\n>" [style=filled, fillcolor=lightblue];
+"4 - Constant\n10" [style=filled, fillcolor=lightblue];
+"5 - Operator\n=" [style=filled, fillcolor=lightblue];
+"6 - Switch" [style=filled, fillcolor=lightblue];
+"0 - Gain\nint a" -> "3 - Operator\n>";
+"2 - Constant\n50" -> "3 - Operator\n>";
+"1 - Constant\n100" -> "5 - Operator\n=";
+"4 - Constant\n10" -> "5 - Operator\n=";
+"3 - Operator\n>" -> "6 - Switch";
+"5 - Operator\n=" -> "6 - Switch";
 }

@@ -8,9 +8,6 @@ class ModelBuilder:
     def __init__(self):
         self.symbol_table = {}
         self.h = None
-
-        #HACK: Needed for binary operator, as children eat the operator token
-        self.punctuation_seen = []
         
     def build(self, filename):
 
@@ -22,14 +19,14 @@ class ModelBuilder:
         tree = ET.parse(filename)
         root = tree.getroot()
 
-        self.traverse_node(root, None)
+        self.traverse_node(root, None, 0)
         
         print(self.symbol_table)
         graph_to_dot("simple", self.h)
 
 
 
-    def traverse_node(self, node, parent):
+    def traverse_node(self, node, parent, depth):
 
         node_kind = node.get('kind')
         
@@ -38,16 +35,21 @@ class ModelBuilder:
         child_results = []
         
         for child in node:
-            child_results.append(self.traverse_node(child, node))
+            child_results.append(self.traverse_node(child, node, depth + 1))
             
         print(node_kind)
-        print(child_results)    
+        
+        if node_kind in ['XML', 'CursorKind.TYPEDEF_DECL', 'CursorKind.TYPE_REF', 'CursorKind.TRANSLATION_UNIT', 'CursorKind.DECL_STMT', 'CursorKind.UNEXPOSED_EXPR']:
+        
+            if len(child_results) > 0:    
+                return child_results[0]
+            else:
+                return None
+            
+        
+        print(child_results)            
         
         
-        punct = node.get('TokenKind.PUNCTUATION')
-        if not punct == None:
-            self.punctuation_seen.append(punct)
-                   
         if node_kind in ["CursorKind.INTEGER_LITERAL", "CursorKind.FLOATING_LITERAL"]:
             literal = node.get('TokenKind.LITERAL')
             
@@ -67,36 +69,66 @@ class ModelBuilder:
             var_name = node.get('spelling')
             self.symbol_table[var_name] = child_results[0]
             
+        elif node_kind == "CursorKind.PARM_DECL":
+        
+            #don't know the parent yet, so just create a gain block of 1 to represent the in port
+            vertex = self.h.add_node()
+            self.h.vs[vertex][Himesis.Constants.META_MODEL] = "Gain"
+            
+            var_name = node.get('TokenKind.IDENTIFIER')
+            self.h.vs[vertex]["value"] = node.get('TokenKind.KEYWORD') + " " + var_name
+            
+            self.symbol_table[var_name] = vertex
+            
+            return vertex
+        
+            var_name = node.get('spelling')
+            self.symbol_table[var_name] = child_results[0]
+            
         elif node_kind == "CursorKind.DECL_REF_EXPR":
             var_name = node.get('TokenKind.IDENTIFIER')
             return self.symbol_table[var_name]
             
-            
-        elif node_kind == "CursorKind.BINARY_OPERATOR":
-            
-            p = None
-            
-            #TODO: Make this pretty
-            while len(self.punctuation_seen) > 0:
-                p = self.punctuation_seen.pop()
-
-                if p in [';', '=', '(', ')']:
-                    continue
-                    
-                break
-
-            if p == None:
-                print("ERROR: BINARY OPERATOR DOES NOT HAVE AN OPERATOR")
-                
-            
-            #create constant block for this literal
+        elif node_kind == "CursorKind.COMPOUND_STMT":
+            #TODO: Place comments in subsystems?
+            #            comment = node.get('TokenKind.COMMENT')
+            #            
+            #            vertex = self.h.add_node()
+            #            self.h.vs[vertex][Himesis.Constants.META_MODEL] = "Comment"
+            #            self.h.vs[vertex]["value"] = comment
+            #            
+            #            self.h.add_edge(child_results[0], vertex)
+            #            
+            #            return vertex
+            pass
+        
+        elif node_kind == "CursorKind.IF_STMT":
             vertex = self.h.add_node()
-            self.h.vs[vertex][Himesis.Constants.META_MODEL] = p
+            self.h.vs[vertex][Himesis.Constants.META_MODEL] = "Switch"
             
             self.h.add_edge(child_results[0], vertex)
             self.h.add_edge(child_results[1], vertex)
+            #self.h.add_edge(child_results[2], vertex)
             
-            return vertex   
+            return vertex
+        
+        
+        elif node_kind == "CursorKind.BINARY_OPERATOR" or node_kind == "CursorKind.UNARY_OPERATOR":
+            
+            
+            vertex = self.h.add_node()
+            self.h.vs[vertex][Himesis.Constants.META_MODEL] = "Operator"
+            self.h.vs[vertex]["value"] = node.get('TokenKind.PUNCTUATION')
+            
+            self.h.add_edge(child_results[0], vertex)
+            
+            if len(child_results) > 1:
+                self.h.add_edge(child_results[1], vertex)
+            
+            return vertex
+            
+        else:
+            print("KIND NOT HANDLED: " + str(node_kind))
             
         if len(child_results) > 0:    
             return child_results[0]

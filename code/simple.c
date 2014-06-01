@@ -1,22 +1,13 @@
-int main(char * argv[])
+int main(int a)
 {
-    //this is an if
-    if ( 3 > 4)
+    int b = 100;
+    
+    
+    if (a > 50)
     {
-        /*
-        This is a bigg comment
-        */
-        int a = 1;
+        b = 10;
     }
-    else if (4 < 98)
-    {
-        //do nothing
-        int d = 34;
-    }
-    else
-    {
-        int b = 100 + 1;
-        int * c = &b;
-    }
+    
+    return b;
 
 }

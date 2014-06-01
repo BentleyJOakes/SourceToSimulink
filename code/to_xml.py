@@ -2,7 +2,8 @@ import xml.etree.cElementTree as ET
 
 def write_xml(program, name):
     root = ET.Element("root")
-
+    root.set("kind", "XML")
+    
     write_node(program, root)
     
     tree = ET.ElementTree(root)
@@ -46,7 +47,7 @@ def write_node(node, parent):
 
     
     node_kind = str(node['kind'])
-    print(node_kind)
+    #print(node_kind)
     
     tokens_to_use = []
     
@@ -113,7 +114,7 @@ def write_node(node, parent):
         used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '('))
         used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ')'))
         
-        used_tokens.append(remove_token_kind("TokenKind.KEYWORD", tokens, spelling = 'else', required = 'false'))
+        used_tokens.append(remove_token_kind("TokenKind.KEYWORD", tokens, spelling = 'else', required = False))
         
     elif node_kind == "CursorKind.FOR_STMT":
         used_tokens.append(remove_token_kind("TokenKind.KEYWORD", tokens, spelling = 'for'))
@@ -182,8 +183,8 @@ def write_node(node, parent):
         node_xml.set(t.kind, t.spelling)
         used_tokens.append(t)
         
-    for t in tokens:
-        print("\t\t" + str(t))
+    #for t in tokens:
+    #    print("\t\t" + str(t))
     
     return used_tokens
     
@@ -196,7 +197,7 @@ def remove_token_kind(kind, tokens, reverse = False, required = True, spelling =
         #make sure kind matches, and potentially do a spelling check (for punctuation)
         if t.kind == kind and (spelling == None or t.spelling == spelling):
             tokens.remove(t)
-            print("\tFound: " + str(t))
+            #print("\tFound: " + str(t))
             return t
             
     if required:
