@@ -1,11 +1,10 @@
 digraph simple {
 "0 - Param\nint a" [fillcolor=lightblue, style=filled];
 "1 - Constant\n1000" [fillcolor=lightblue, style=filled];
-"2 - Constant\n10" [fillcolor=lightblue, style=filled];
-"3 - Constant\n20" [fillcolor=lightblue, style=filled];
-"4 - Operator\n+" [fillcolor=lightblue, style=filled];
-"5 - Variable\nmain b" [fillcolor=lightblue, style=filled];
-"2 - Constant\n10" -> "4 - Operator\n+";
-"3 - Constant\n20" -> "4 - Operator\n+";
-"5 - Variable\nmain b" -> "4 - Operator\n+";
+"2 - Constant\n20" [fillcolor=lightblue, style=filled];
+"3 - Operator\n+" [fillcolor=lightblue, style=filled];
+"4 - Variable\nmain b" [fillcolor=lightblue, style=filled];
+"0 - Param\nint a" -> "3 - Operator\n+";
+"2 - Constant\n20" -> "3 - Operator\n+";
+"3 - Operator\n+" -> "4 - Variable\nmain b";
 }

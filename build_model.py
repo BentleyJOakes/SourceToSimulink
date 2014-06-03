@@ -31,10 +31,33 @@ class ModelBuilder:
         #compound statements just collect the symbol tables for lower nodes
         #TODO: Add comments to subsystems?
         if node_kind == "CursorKind.COMPOUND_STMT":
-            symbol_table = {}
             for child in node:
                 _, symbol_table = self.traverse_node(child, node, symbol_table)
-            return symbol_table
+
+
+            return None, symbol_table
+
+        elif node_kind == 'CursorKind.FUNCTION_DECL':
+            for child in node:
+                _, symbol_table = self.traverse_node(child, node, symbol_table)
+
+
+            for key in symbol_table:
+                try:
+                    float(key)
+                    continue
+
+                except ValueError:
+                    vertex = self.h.add_node()
+                    self.h.vs[vertex][Himesis.Constants.META_MODEL] = "Variable"
+
+                    func_name = node.get('TokenKind.IDENTIFIER')
+                    self.h.vs[vertex]["value"] = func_name + " " + key
+
+                    self.h.add_edge(symbol_table[key], vertex)
+
+                return symbol_table
+
 
         print(node_kind)
         print("Symbol table:")
@@ -107,9 +130,7 @@ class ModelBuilder:
                     break
 
                 block_num, _ = child_results[1]
-                print("Symbol table before:" + str(symbol_table))
                 symbol_table.update({var_name: block_num})
-                print("Symbol table after:" + str(symbol_table))
                 return block_num, symbol_table
 
             vertex = self.h.add_node()
@@ -132,7 +153,8 @@ class ModelBuilder:
 
             var_name = node.get('spelling')
             self.h.vs[vertex]["value"] = node.get('TokenKind.KEYWORD') + " " + var_name
-            return vertex
+            symbol_table.update({var_name:vertex})
+            return vertex, symbol_table
 
         elif node_kind == "CursorKind.IF_STMT":
             vertex = self.h.add_node()
@@ -145,27 +167,7 @@ class ModelBuilder:
             return vertex
 
 
-        elif node_kind == 'CursorKind.FUNCTION_DECL':
-            print("Symbol table for this function:")
-            print(child_results[1])
 
-            for key in child_results[1]:
-                print(key)
-                try:
-                    float(key)
-                    continue
-
-                except ValueError:
-
-                    vertex = self.h.add_node()
-                    self.h.vs[vertex][Himesis.Constants.META_MODEL] = "Variable"
-
-                    func_name = node.get('TokenKind.IDENTIFIER')
-                    self.h.vs[vertex]["value"] = func_name + " " + key
-
-                    self.h.add_edge(vertex, child_results[1][key])
-
-            return None
 
         else:
             print("KIND NOT HANDLED: " + str(node_kind))
