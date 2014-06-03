@@ -19,7 +19,7 @@ class ModelBuilder:
         tree = ET.parse(filename)
         root = tree.getroot()
 
-        self.symbol_table = self.traverse_node(root, None, 0)
+        symbol_table = self.traverse_node(root, None, 0)
         
         print(self.symbol_table)
         graph_to_dot("simple", self.h, directory = "./examples/")
@@ -27,11 +27,13 @@ class ModelBuilder:
     def traverse_node(self, node, parent, depth):
         node_kind = node.get('kind')
         child_results = []
-        self.symbol_table = {}
+        symbol_table = {}
+
         for child in node:
             child_results.append(self.traverse_node(child, node, depth + 1))
 
         print(node_kind)
+        print(child_results)
         if node_kind in ['XML', 'CursorKind.TYPEDEF_DECL', 'CursorKind.TYPE_REF', 'CursorKind.TRANSLATION_UNIT',
                          'CursorKind.DECL_STMT', 'CursorKind.UNEXPOSED_EXPR']:
             if len(child_results) > 0:
@@ -39,25 +41,26 @@ class ModelBuilder:
             else:
                 return None
 
-        print(child_results)
+
         if node_kind in ["CursorKind.INTEGER_LITERAL", "CursorKind.FLOATING_LITERAL"]:
             literal = node.get('TokenKind.LITERAL')
 
             # return constant block if already exists
-            if literal in self.symbol_table:
-                return self.symbol_table[literal]
+            #if literal in symbol_table:
+            #    return self.symbol_table[literal]
 
             #else, create constant block for this literal
             vertex = self.h.add_node()
             self.h.vs[vertex][Himesis.Constants.META_MODEL] = "Constant"
             self.h.vs[vertex]["value"] = literal
 
-            self.symbol_table[literal] = vertex
+            #self.symbol_table[literal] = vertex
             return vertex
 
         elif node_kind == "CursorKind.VAR_DECL":
             var_name = node.get('spelling')
-            self.symbol_table[var_name] = child_results[0]
+            #self.symbol_table[var_name] = child_results[0]
+            return {var_name : child_results[0]}
 
         elif node_kind == "CursorKind.PARM_DECL":
             # don't know the parent yet, so just create a gain block of 1 to represent the in port
