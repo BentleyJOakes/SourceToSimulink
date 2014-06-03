@@ -1,10 +1,17 @@
 digraph simple {
-"0 - Param\nint a" [fillcolor=lightblue, style=filled];
-"1 - Constant\n1000" [fillcolor=lightblue, style=filled];
-"2 - Constant\n20" [fillcolor=lightblue, style=filled];
-"3 - Operator\n+" [fillcolor=lightblue, style=filled];
-"4 - Variable\nmain b" [fillcolor=lightblue, style=filled];
-"0 - Param\nint a" -> "3 - Operator\n+";
-"2 - Constant\n20" -> "3 - Operator\n+";
-"3 - Operator\n+" -> "4 - Variable\nmain b";
+"0 - Param\nint a" [style=filled, fillcolor=lightblue];
+"1 - Constant\n1000" [style=filled, fillcolor=lightblue];
+"2 - Constant\n50" [style=filled, fillcolor=lightblue];
+"3 - Operator\n>" [style=filled, fillcolor=lightblue];
+"4 - Constant\n100" [style=filled, fillcolor=lightblue];
+"5 - Variable Switch\nVariable is b" [style=filled, fillcolor=lightblue];
+"6 - Variable\nmain a" [style=filled, fillcolor=lightblue];
+"7 - Variable\nmain b" [style=filled, fillcolor=lightblue];
+"0 - Param\nint a" -> "3 - Operator\n>";
+"2 - Constant\n50" -> "3 - Operator\n>";
+"3 - Operator\n>" -> "5 - Variable Switch\nVariable is b";
+"1 - Constant\n1000" -> "5 - Variable Switch\nVariable is b";
+"4 - Constant\n100" -> "5 - Variable Switch\nVariable is b";
+"0 - Param\nint a" -> "6 - Variable\nmain a";
+"5 - Variable Switch\nVariable is b" -> "7 - Variable\nmain b";
 }

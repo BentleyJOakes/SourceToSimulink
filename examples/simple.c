@@ -1,5 +1,9 @@
 int main(int a)
 {
     int b = 1000;
-    b = a + 20;
+
+    if (a > 50)
+    {
+        b = 100;
+    }
 }
