@@ -38,7 +38,7 @@ def get_attribute(s, attr):
     else:
         return s + str(attr)
 
-def graph_to_dot(name, g, verbosity = 0):
+def graph_to_dot(name, g, verbosity = 0, directory = "./dot/"):
     """
     build a dot file from a himesis graph
     verbosity = 0, no traceability in the dot graph
@@ -147,13 +147,12 @@ def graph_to_dot(name, g, verbosity = 0):
         #else:
         graph.add_edge(pydot.Edge(nodes[e.source],nodes[e.target]))
 
-    dot_filename = './dot/' + name + '.dot'
+    dot_filename = directory + name + '.dot'
     graph.write(dot_filename)
     
     command = "dot -Tsvg " + dot_filename + " -o " + dot_filename.replace(".dot", ".svg")
     #print(command)
     subprocess.call(command, shell=True)
-#    graph.write('/home/gehan/OutputDotFiles/%s.dot'%name)    
 
 def disjoint_model_union(first, second):
     """
@@ -245,13 +244,13 @@ def print_graph(graph):
     pretty print a Himesis graph
     """
     # first print the nodes
-    print 'Name: ' + graph.name
+    print('Name: ' + graph.name)
     
-    print 'Nodes: '
+    print('Nodes: ')
     for v in graph.vs:
-        print v
+        print(v)
     
     # then print the edges
-    print 'Edges: '
+    print('Edges: ')
     for e in graph.es:
-        print e  
+        print(e)

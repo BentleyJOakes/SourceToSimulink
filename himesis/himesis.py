@@ -1,9 +1,9 @@
 
-import uuid, os.path, copy, cPickle as pickle    # Pickle is used to save the attribute values as pickled strings
+import uuid, os.path, copy, pickle    # Pickle is used to save the attribute values as pickled strings
 import igraph as ig
-from util import misc
-from util.misc import indent_text
-from epsilon_parser import EpsilonParser
+from himesis.util import misc
+from himesis.util.misc import indent_text
+from himesis.epsilon_parser import EpsilonParser
 
 
 
@@ -115,13 +115,13 @@ class Himesis(ig.Graph):
         """
             Iterates over the nodes in the graph, by index
         """
-        return xrange(self.vcount())
+        return range(self.vcount())
     
     def edge_iter(self):
         """
             Iterates over the edges in the graph, by index
         """
-        return xrange(self.ecount())
+        return range(self.ecount())
     
     def add_node(self):
         new_node = self.vcount()
@@ -269,10 +269,10 @@ from Server.TCore.core.himesis import Himesis''')
             init_params = ''
             init_params_values = ''
             if len(self.init_params) > 0:
-                init_params = reduce(lambda p1, p2: p1 + p2,
+                init_params = functools.reduce(lambda p1, p2: p1 + p2,
                                     map(lambda p: ', %s' % p,
                                         self.init_params))
-                init_params_values = reduce(lambda p1, p2: p1 + p2,
+                init_params_values = functools.reduce(lambda p1, p2: p1 + p2,
                                             map(lambda p: ', %s=%s' % (p, p),
                                                 self.init_params))
             file.write('''

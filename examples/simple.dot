@@ -1,0 +1,11 @@
+digraph simple {
+"0 - Gain\nint a" [style=filled, fillcolor=lightblue];
+"1 - Constant\n1000" [style=filled, fillcolor=lightblue];
+"2 - Constant\n100" [style=filled, fillcolor=lightblue];
+"3 - Operator\n+" [style=filled, fillcolor=lightblue];
+"4 - Operator\n=" [style=filled, fillcolor=lightblue];
+"0 - Gain\nint a" -> "3 - Operator\n+";
+"2 - Constant\n100" -> "3 - Operator\n+";
+"0 - Gain\nint a" -> "4 - Operator\n=";
+"3 - Operator\n+" -> "4 - Operator\n=";
+}
