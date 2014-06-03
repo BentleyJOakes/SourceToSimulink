@@ -15,39 +15,49 @@ class ModelBuilder:
         self.h[Himesis.Constants.META_MODEL] = ['Simulink']
         self.h["name"] = "simple"
 
-
         tree = ET.parse(filename)
         root = tree.getroot()
 
-        symbol_table = self.traverse_node(root, None, 0)
-        
-        print(self.symbol_table)
+        symbol_table = self.traverse_node(root, None, {})
+
+        print("Symbol Table:")
+        print(symbol_table)
         graph_to_dot("simple", self.h, directory = "./examples/")
 
-    def traverse_node(self, node, parent, depth):
+    def traverse_node(self, node, parent, symbol_table):
         node_kind = node.get('kind')
-        child_results = []
-        symbol_table = {}
 
-        for child in node:
-            child_results.append(self.traverse_node(child, node, depth + 1))
+
+        #compound statements just collect the symbol tables for lower nodes
+        #TODO: Add comments to subsystems?
+        if node_kind == "CursorKind.COMPOUND_STMT":
+            symbol_table = {}
+            for child in node:
+                _, symbol_table = self.traverse_node(child, node, symbol_table)
+            return symbol_table
 
         print(node_kind)
+        print("Symbol table:")
+        print(symbol_table)
+
+        # all other nodes use a bottom up approach to resolve the symbol tables
+        child_results = []
+        for child in node:
+            child_results.append(self.traverse_node(child, node, symbol_table))
+
+        print(node_kind)
+        print("Child results")
         print(child_results)
-        if node_kind in ['XML', 'CursorKind.TYPEDEF_DECL', 'CursorKind.TYPE_REF', 'CursorKind.TRANSLATION_UNIT',
-                         'CursorKind.DECL_STMT', 'CursorKind.UNEXPOSED_EXPR']:
-            if len(child_results) > 0:
-                return child_results[0]
-            else:
-                return None
 
 
+        #return vertex of constant block with literal
         if node_kind in ["CursorKind.INTEGER_LITERAL", "CursorKind.FLOATING_LITERAL"]:
             literal = node.get('TokenKind.LITERAL')
 
             # return constant block if already exists
-            #if literal in symbol_table:
-            #    return self.symbol_table[literal]
+            if literal in symbol_table:
+                symbol_table.update({literal: symbol_table[literal]})
+                return symbol_table[literal], symbol_table
 
             #else, create constant block for this literal
             vertex = self.h.add_node()
@@ -55,44 +65,74 @@ class ModelBuilder:
             self.h.vs[vertex]["value"] = literal
 
             #self.symbol_table[literal] = vertex
-            return vertex
+
+            print("Creating: " + str({literal : vertex}))
+            symbol_table.update({literal: vertex})
+            return vertex, symbol_table
+
+        #set the variable to be set to the child,
+        # (the RHS of the declaration) if the variable was given a value
+        #otherwise, ignore this variable
 
         elif node_kind == "CursorKind.VAR_DECL":
             var_name = node.get('spelling')
             #self.symbol_table[var_name] = child_results[0]
-            return {var_name : child_results[0]}
 
-        elif node_kind == "CursorKind.PARM_DECL":
-            # don't know the parent yet, so just create a gain block of 1 to represent the in port
-            vertex = self.h.add_node()
-            self.h.vs[vertex][Himesis.Constants.META_MODEL] = "Gain"
-
-            var_name = node.get('TokenKind.IDENTIFIER')
-            self.h.vs[vertex]["value"] = node.get('TokenKind.KEYWORD') + " " + var_name
-
-            #self.symbol_table[var_name] = vertex
-
-            return vertex
-
-            var_name = node.get('spelling')
-            self.symbol_table[var_name] = child_results[0]
+            if len(child_results) > 0:
+                block_num, _ = child_results[0]
+                print("Creating: " + str({var_name : block_num}))
+                symbol_table.update({var_name: block_num})
+                return block_num, symbol_table
+            else:
+                print("Returning: " + str(symbol_table))
+                return None, symbol_table
 
         elif node_kind == "CursorKind.DECL_REF_EXPR":
             var_name = node.get('TokenKind.IDENTIFIER')
-            return None  # self.symbol_table[var_name]
+            block_num = symbol_table[var_name]
+            return block_num, symbol_table
 
-        elif node_kind == "CursorKind.COMPOUND_STMT":
-            # TODO: Place comments in subsystems?
-            #            comment = node.get('TokenKind.COMMENT')
-            #            
-            #            vertex = self.h.add_node()
-            #            self.h.vs[vertex][Himesis.Constants.META_MODEL] = "Comment"
-            #            self.h.vs[vertex]["value"] = comment
-            #            
-            #            self.h.add_edge(child_results[0], vertex)
-            #            
-            #            return vertex
-            pass
+        elif node_kind == "CursorKind.BINARY_OPERATOR" or node_kind == "CursorKind.UNARY_OPERATOR":
+            operator = node.get('TokenKind.PUNCTUATION')
+
+            # this is an assignment statement
+            if operator == "=":
+                print("Is assignment")
+
+                #TODO: This will definitely break in the future
+                var_name = ''
+                for child in node:
+                    assert child.get('kind') == "CursorKind.DECL_REF_EXPR", "Assignment operator needs to be fixed"
+                    var_name = child.get('TokenKind.IDENTIFIER')
+                    break
+
+                block_num, _ = child_results[1]
+                print("Symbol table before:" + str(symbol_table))
+                symbol_table.update({var_name: block_num})
+                print("Symbol table after:" + str(symbol_table))
+                return block_num, symbol_table
+
+            vertex = self.h.add_node()
+            self.h.vs[vertex][Himesis.Constants.META_MODEL] = "Operator"
+            self.h.vs[vertex]["value"] = operator
+
+            block_num1, _ = child_results[0]
+            self.h.add_edge(block_num1, vertex)
+
+            if len(child_results) > 1:
+                block_num2, _ = child_results[1]
+                self.h.add_edge(block_num2, vertex)
+
+            return vertex, symbol_table
+
+        elif node_kind == "CursorKind.PARM_DECL":
+            # don't know the parent yet, so just create a param block of 1 to represent the in port
+            vertex = self.h.add_node()
+            self.h.vs[vertex][Himesis.Constants.META_MODEL] = "Param"
+
+            var_name = node.get('spelling')
+            self.h.vs[vertex]["value"] = node.get('TokenKind.KEYWORD') + " " + var_name
+            return vertex
 
         elif node_kind == "CursorKind.IF_STMT":
             vertex = self.h.add_node()
@@ -105,30 +145,35 @@ class ModelBuilder:
             return vertex
 
 
-        elif node_kind == "CursorKind.BINARY_OPERATOR" or node_kind == "CursorKind.UNARY_OPERATOR":
-            operator = node.get('TokenKind.PUNCTUATION')
+        elif node_kind == 'CursorKind.FUNCTION_DECL':
+            print("Symbol table for this function:")
+            print(child_results[1])
 
-            if operator == "=":
-                # this is an assignment statement
-                pass
+            for key in child_results[1]:
+                print(key)
+                try:
+                    float(key)
+                    continue
 
-            vertex = self.h.add_node()
-            self.h.vs[vertex][Himesis.Constants.META_MODEL] = "Operator"
-            self.h.vs[vertex]["value"] = operator
+                except ValueError:
 
-            self.h.add_edge(child_results[0], vertex)
+                    vertex = self.h.add_node()
+                    self.h.vs[vertex][Himesis.Constants.META_MODEL] = "Variable"
 
-            if len(child_results) > 1:
-                self.h.add_edge(child_results[1], vertex)
+                    func_name = node.get('TokenKind.IDENTIFIER')
+                    self.h.vs[vertex]["value"] = func_name + " " + key
 
-            return vertex
+                    self.h.add_edge(vertex, child_results[1][key])
+
+            return None
 
         else:
             print("KIND NOT HANDLED: " + str(node_kind))
+
         if len(child_results) > 0:
             return child_results[0]
         else:
-            return None
+            return symbol_table
             
             
 def main():

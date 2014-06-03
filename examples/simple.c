@@ -1,5 +1,5 @@
 int main(int a)
 {
     int b = 1000;
-    b = b + 100;
+    b = 10 + 20;
 }

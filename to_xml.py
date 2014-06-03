@@ -69,7 +69,7 @@ def write_node(node, parent):
         used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, required = False, spelling = ';'))
     
     elif node_kind == "CursorKind.DECL_STMT":
-        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '='))
+        used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = '=', required = False))
         used_tokens.append(remove_token_kind("TokenKind.PUNCTUATION", tokens, spelling = ';', required = False))
         
     elif node_kind == "CursorKind.VAR_DECL":
