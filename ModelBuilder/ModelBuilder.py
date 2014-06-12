@@ -1,14 +1,31 @@
 import xml.etree.ElementTree as ET
 
+import importlib
+import sys
+import os
+
 from himesis.himesis import Himesis
 from himesis.himesis_utils import graph_to_dot
-
+from blocks.Block import *
 
 class ModelBuilder:
 
     def __init__(self):
         self.h = None
-        
+
+    def load_class(self, full_class_string):
+        directory, module_name = os.path.split(full_class_string)
+        module_name = os.path.splitext(module_name)[0]
+
+        path = list(sys.path)
+        sys.path.insert(0, directory)
+
+        try:
+            module = __import__(module_name)
+        finally:
+            sys.path[:] = path # restore
+        return {module_name : getattr(module, module_name)}
+
     def build(self, filename):
 
         self.h = Himesis(name="simple")
@@ -18,11 +35,13 @@ class ModelBuilder:
         tree = ET.parse(filename)
         root = tree.getroot()
 
-        symbol_table = self.traverse_node(root, None, {})
+        node_kind = xmlNode.get('kind')
 
-        print("Symbol Table:")
-        print(symbol_table)
-        graph_to_dot("simple", self.h, directory = "./examples/")
+        #symbol_table = self.traverse_node(root, None, {})
+
+        #print("Symbol Table:")
+        #print(symbol_table)
+        #graph_to_dot("simple", self.h, directory = "./examples/")
 
     def traverse_node(self, node, parent, symbol_table):
         node_kind = node.get('kind')

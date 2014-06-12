@@ -107,7 +107,7 @@ def main():
     if not tu:
         parser.error("unable to load input")
 
-    #print("Starting to get info")
+    print("Starting to parse code")
 
 
     #pprint(('diags', map(get_diag_info, tu.diagnostics)))

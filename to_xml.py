@@ -1,6 +1,9 @@
 import xml.etree.cElementTree as ET
 
 def write_xml(program, name):
+
+    print("===Start writing XML")
+
     root = ET.Element("root")
     root.set("kind", "XML")
     
@@ -10,7 +13,7 @@ def write_xml(program, name):
     
     tree.write(name + ".xml")
     
-    
+    print("===Done writing XML")
 
 
 def write_node(node, parent):

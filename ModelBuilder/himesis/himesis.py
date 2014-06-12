@@ -1,9 +1,9 @@
 
 import uuid, os.path, copy, pickle    # Pickle is used to save the attribute values as pickled strings
 import igraph as ig
-from himesis.util import misc
-from himesis.util.misc import indent_text
-from himesis.epsilon_parser import EpsilonParser
+from util import misc
+from util.misc import indent_text
+from epsilon_parser import EpsilonParser
 
 
 

@@ -1,3 +1,3 @@
 python2 parse_source.py examples/simple.c
-python build_model.py examples/simple.c.xml
+python2 ModelBuilder/ModelBuilder.py examples/simple.c.xml
 

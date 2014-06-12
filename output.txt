@@ -1,0 +1,134 @@
+Starting to parse code
+===Start writing XML
+===Done writing XML
+Hello
+XML
+Symbol table:
+{}
+CursorKind.TRANSLATION_UNIT
+Symbol table:
+{}
+CursorKind.TYPEDEF_DECL
+Symbol table:
+{}
+CursorKind.TYPEDEF_DECL
+Child results
+[]
+KIND NOT HANDLED: CursorKind.TYPEDEF_DECL
+CursorKind.TYPEDEF_DECL
+Symbol table:
+{}
+CursorKind.TYPEDEF_DECL
+Child results
+[]
+KIND NOT HANDLED: CursorKind.TYPEDEF_DECL
+CursorKind.TYPEDEF_DECL
+Symbol table:
+{}
+CursorKind.TYPE_REF
+Symbol table:
+{}
+CursorKind.TYPE_REF
+Child results
+[]
+KIND NOT HANDLED: CursorKind.TYPE_REF
+CursorKind.TYPEDEF_DECL
+Child results
+[{}]
+KIND NOT HANDLED: CursorKind.TYPEDEF_DECL
+CursorKind.PARM_DECL
+Symbol table:
+{}
+CursorKind.PARM_DECL
+Child results
+[]
+CursorKind.DECL_STMT
+Symbol table:
+{'a': 0}
+CursorKind.VAR_DECL
+Symbol table:
+{'a': 0}
+CursorKind.INTEGER_LITERAL
+Symbol table:
+{'a': 0}
+CursorKind.INTEGER_LITERAL
+Child results
+[]
+Creating: {'1000': 1}
+CursorKind.VAR_DECL
+Child results
+[(1, {'a': 0, '1000': 1})]
+Creating: {'b': 1}
+CursorKind.DECL_STMT
+Child results
+[(1, {'a': 0, 'b': 1, '1000': 1})]
+KIND NOT HANDLED: CursorKind.DECL_STMT
+CursorKind.IF_STMT
+Symbol table:
+{'a': 0, 'b': 1, '1000': 1}
+CursorKind.BINARY_OPERATOR
+Symbol table:
+{'a': 0, 'b': 1, '1000': 1}
+CursorKind.UNEXPOSED_EXPR
+Symbol table:
+{'a': 0, 'b': 1, '1000': 1}
+CursorKind.DECL_REF_EXPR
+Symbol table:
+{'a': 0, 'b': 1, '1000': 1}
+CursorKind.DECL_REF_EXPR
+Child results
+[]
+CursorKind.UNEXPOSED_EXPR
+Child results
+[(0, {'a': 0, 'b': 1, '1000': 1})]
+KIND NOT HANDLED: CursorKind.UNEXPOSED_EXPR
+CursorKind.INTEGER_LITERAL
+Symbol table:
+{'a': 0, 'b': 1, '1000': 1}
+CursorKind.INTEGER_LITERAL
+Child results
+[]
+Creating: {'50': 2}
+CursorKind.BINARY_OPERATOR
+Child results
+[(0, {'a': 0, 'b': 1, '50': 2, '1000': 1}), (2, {'a': 0, 'b': 1, '50': 2, '1000': 1})]
+CursorKind.BINARY_OPERATOR
+Symbol table:
+{'a': 0, 'b': 1, '50': 2, '1000': 1}
+CursorKind.DECL_REF_EXPR
+Symbol table:
+{'a': 0, 'b': 1, '50': 2, '1000': 1}
+CursorKind.DECL_REF_EXPR
+Child results
+[]
+CursorKind.INTEGER_LITERAL
+Symbol table:
+{'a': 0, 'b': 1, '50': 2, '1000': 1}
+CursorKind.INTEGER_LITERAL
+Child results
+[]
+Creating: {'100': 4}
+CursorKind.BINARY_OPERATOR
+Child results
+[(1, {'a': 0, '100': 4, 'b': 1, '50': 2, '1000': 1}), (4, {'a': 0, '100': 4, 'b': 1, '50': 2, '1000': 1})]
+Is assignment
+CursorKind.IF_STMT
+Child results
+[(3, {'a': 0, '100': 4, 'b': 1, '50': 2, '1000': 1}), (None, {'a': 0, 'b': 4, '100': 4, '50': 2, '1000': 1})]
+IF children: 2
+Symbol table:
+{'a': 0, '100': 4, 'b': 1, '50': 2, '1000': 1}
+Possible values
+set([0])
+Possible values
+set([1, 4])
+CursorKind.TRANSLATION_UNIT
+Child results
+[{'a': 0, '100': 4, 'b': 1, '50': 2, '1000': 1}, {'a': 0, '100': 4, 'b': 1, '50': 2, '1000': 1}, {'a': 0, '100': 4, 'b': 1, '50': 2, '1000': 1}, {'a': 0, 'b': 5, '100': 4, '50': 2, '1000': 1}]
+KIND NOT HANDLED: CursorKind.TRANSLATION_UNIT
+XML
+Child results
+[{'a': 0, '100': 4, 'b': 1, '50': 2, '1000': 1}]
+KIND NOT HANDLED: XML
+Symbol Table:
+{'a': 0, '100': 4, 'b': 1, '50': 2, '1000': 1}
