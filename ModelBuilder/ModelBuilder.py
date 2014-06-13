@@ -16,7 +16,6 @@ class ModelBuilder:
 
     def build(self, filename):
 
-
         #parse XML to get root
         tree = ET.parse(filename)
         root = tree.getroot()
@@ -31,8 +30,7 @@ class ModelBuilder:
 
         self.root.add_to_model(self.h)
 
-        #print("Symbol Table:")
-        #print(symbol_table)
+        print("Symbol Table: " + str(self.root.symbol_table))
         graph_to_dot("simple", self.h, directory = "./examples/")
 
     def build_structure(self, node, parent):
@@ -52,18 +50,6 @@ class ModelBuilder:
         for child in node:
             self.build_structure(child, block)
 
-    def build_model(self, block):
-        for child in block.children:
-            self.build_model(child)
-
-
-        vertex = self.h.add_node()
-        self.h.vs[vertex][Himesis.Constants.META_MODEL] = block.kind
-
-        block.vertex = vertex
-
-        for child in block.children:
-            self.h.add_edge(vertex, child.vertex)
 
 
         # #compound statements just collect the symbol tables for lower nodes
@@ -75,26 +61,7 @@ class ModelBuilder:
         #
         #     return None, symbol_table
         #
-        # elif node_kind == 'CursorKind.FUNCTION_DECL':
-        #     for child in node:
-        #         _, symbol_table = self.traverse_node(child, node, symbol_table)
         #
-        #
-        #     for key in symbol_table:
-        #         try:
-        #             float(key)
-        #             continue
-        #
-        #         except ValueError:
-        #             vertex = self.h.add_node()
-        #             self.h.vs[vertex][Himesis.Constants.META_MODEL] = "Variable"
-        #
-        #             func_name = node.get('TokenKind.IDENTIFIER')
-        #             self.h.vs[vertex]["value"] = func_name + " " + key
-        #
-        #             self.h.add_edge(symbol_table[key], vertex)
-        #
-        #     return symbol_table
         #
         #
         # print(node_kind)

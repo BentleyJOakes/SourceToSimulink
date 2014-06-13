@@ -7,6 +7,7 @@ class Block:
         self.kind = node.get('kind')
         self.parent = None
         self.vertex = None
+        self.symbol_table = {}
 
     def add_child(self, child):
         self.children.append(child)
@@ -26,3 +27,15 @@ class Block:
         for child in self.children:
             h.add_edge(vertex, child.vertex)
 
+        self.collect_childrens_symbol_table()
+
+
+    def collect_childrens_symbol_table(self):
+        print("Symbol_table before: " + str(self.symbol_table))
+        for child in self.children:
+            print("Symbol_table child: " + str(child.symbol_table))
+            self.symbol_table.update(child.symbol_table)
+        print("Symbol_table after: " + str(self.symbol_table))
+
+    def store_in_symbol_table(self, name, value):
+        self.symbol_table[self.value] = value
