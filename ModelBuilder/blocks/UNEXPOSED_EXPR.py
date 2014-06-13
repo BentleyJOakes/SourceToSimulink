@@ -5,6 +5,8 @@ class UNEXPOSED_EXPR(Block):
     def __init__(self, node):
         Block.__init__(self, node)
 
+    def __str__(self):
+        return str(self.children[0])
 
     def add_to_model(self, h):
 

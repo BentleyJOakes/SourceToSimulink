@@ -6,6 +6,9 @@ class DECL_REF_EXPR(Block):
         Block.__init__(self, node)
         self.name = node.get("TokenKind.IDENTIFIER")
 
+    def __str__(self):
+        return self.name
+
     def add_to_model(self, h):
         self.vertex = self.symbol_table[self.name]
         self.store_in_symbol_table(self.name, self.vertex)

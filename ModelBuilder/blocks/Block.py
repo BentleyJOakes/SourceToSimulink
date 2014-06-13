@@ -9,6 +9,11 @@ class Block:
         self.vertex = None
         self.symbol_table = {}
 
+    def __str__(self):
+        s = self.kind
+        for child in self.children:
+            s += " " + str(child)
+        return s
     def add_child(self, child):
         self.children.append(child)
 
@@ -31,11 +36,8 @@ class Block:
 
 
     def collect_childrens_symbol_table(self):
-        print("Symbol_table before: " + str(self.symbol_table))
         for child in self.children:
-            print("Symbol_table child: " + str(child.symbol_table))
             self.symbol_table.update(child.symbol_table)
-        print("Symbol_table after: " + str(self.symbol_table))
 
     def store_in_symbol_table(self, name, value):
         self.symbol_table[name] = value

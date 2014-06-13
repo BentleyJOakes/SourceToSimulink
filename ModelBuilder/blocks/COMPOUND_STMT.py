@@ -10,11 +10,9 @@ class COMPOUND_STMT(Block):
 
     def add_to_model(self, h):
         for child in self.children:
-            print("before COMPUND DECL: " + str(self.symbol_table))
             child.symbol_table = self.symbol_table
             child.add_to_model(h)
             self.symbol_table = child.symbol_table
-            print(child.kind + " COMPUND DECL: " + str(self.symbol_table))
 
         vertex = h.add_node()
         h.vs[vertex]['mm__'] = "Compound stmt"

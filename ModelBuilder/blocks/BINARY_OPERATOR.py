@@ -6,6 +6,14 @@ class BINARY_OPERATOR(Block):
         Block.__init__(self, node)
         self.value = node.get("TokenKind.PUNCTUATION")
 
+    def __str__(self):
+        s = str(self.children[0])
+        s += " " + self.value + " "
+        s += str(self.children[1])
+        return s
+
+
+
     # elif node_kind == "CursorKind.BINARY_OPERATOR" or node_kind == "CursorKind.UNARY_OPERATOR":
     # operator = node.get('TokenKind.PUNCTUATION')
     #

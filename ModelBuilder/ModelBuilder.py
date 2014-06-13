@@ -1,7 +1,5 @@
 import xml.etree.ElementTree as ET
 
-
-
 from himesis.himesis import Himesis
 from himesis.himesis_utils import graph_to_dot
 from blocks.BlockCreator import BlockCreator
@@ -50,66 +48,6 @@ class ModelBuilder:
         for child in node:
             self.build_structure(child, block)
 
-
-
-
-
-
-        # elif node_kind == "CursorKind.IF_STMT":
-        #     #vertex = self.h.add_node()
-        #     #self.h.vs[vertex][Himesis.Constants.META_MODEL] = "Switch"
-        #
-        #
-        #     # self.h.add_edge(child_results[2], vertex)
-        #
-        #     children = len(child_results)
-        #     print("IF children: " + str(children))
-        #
-        #     print("Symbol table:")
-        #     print(symbol_table)
-        #
-        #     switch_value, _ = child_results[0]
-        #
-        #
-        #     for var_name in symbol_table:
-        #         try:
-        #             float(var_name)
-        #             continue
-        #
-        #         except ValueError:
-        #
-        #             possible_values = []
-        #             possible_values.append(symbol_table[var_name])
-        #             for i in range(1, children):
-        #                 _, child_symbol_table = child_results[i]
-        #                 possible_values.append(child_symbol_table[var_name])
-        #
-        #             print("Possible values")
-        #             print(set(possible_values))
-        #
-        #             if len(set(possible_values)) > 1:
-        #                 vertex = self.h.add_node()
-        #                 self.h.vs[vertex][Himesis.Constants.META_MODEL] = "Variable Switch"
-        #                 self.h.vs[vertex]['value'] = "Variable is " + var_name
-        #
-        #                 self.h.add_edge(switch_value, vertex)
-        #
-        #                 for v in set(possible_values):
-        #                     self.h.add_edge(v, vertex)
-        #
-        #                 symbol_table = symbol_table.copy()
-        #                 symbol_table.update({var_name:vertex})
-        #
-        #     return None, symbol_table
-        #
-        # else:
-        #     print("KIND NOT HANDLED: " + str(node_kind))
-        #
-        # if len(child_results) > 0:
-        #     return child_results[0]
-        # else:
-        #     return symbol_table
-            
             
 def main():
 

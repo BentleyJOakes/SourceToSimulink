@@ -7,41 +7,12 @@ Couldn't find blocks.TYPEDEF_DECL
 Couldn't find blocks.TYPEDEF_DECL
 Couldn't find blocks.TYPEDEF_DECL
 Couldn't find blocks.TYPE_REF
-Symbol_table before: {}
-Symbol_table after: {}
-Symbol_table before: {}
-Symbol_table after: {}
-Symbol_table before: {}
-Symbol_table after: {}
-Symbol_table before: {}
-Symbol_table child: {}
-Symbol_table after: {}
-before COMPUND DECL: {'a': 4}
-CursorKind.DECL_STMT COMPUND DECL: {'a': 4, 'b': 5, '1000': 5}
-before COMPUND DECL: {'a': 4, 'b': 5, '1000': 5}
 CursorKind.IF_STMT {'a': 4, 'b': 5, '1000': 5}
-Symbol_table before: {'a': 4, 'b': 5, '50': 6, '1000': 5}
-Symbol_table child: {'a': 4, 'b': 5, '50': 6, '1000': 5}
-Symbol_table child: {'a': 4, 'b': 5, '50': 6, '1000': 5}
-Symbol_table after: {'a': 4, 'b': 5, '50': 6, '1000': 5}
-before COMPUND DECL: {'a': 4, 'b': 5, '50': 6, '1000': 5}
-Symbol_table before: {'a': 4, '100': 8, 'b': 5, '50': 6, '1000': 5}
-Symbol_table child: {'a': 4, '100': 8, 'b': 5, '50': 6, '1000': 5}
-Symbol_table child: {'a': 4, '100': 8, 'b': 5, '50': 6, '1000': 5}
-Symbol_table after: {'a': 4, '100': 8, 'b': 5, '50': 6, '1000': 5}
-CursorKind.BINARY_OPERATOR COMPUND DECL: {'a': 4, '100': 8, 'b': 5, '50': 6, '1000': 5}
-Symbol_table before: {'a': 4, '100': 8, 'b': 5, '50': 6, '1000': 5}
-Symbol_table child: {'a': 4, '100': 8, 'b': 5, '50': 6, '1000': 5}
-Symbol_table child: {'a': 4, '100': 8, 'b': 5, '50': 6, '1000': 5}
-Symbol_table after: {'a': 4, '100': 8, 'b': 5, '50': 6, '1000': 5}
-CursorKind.IF_STMT COMPUND DECL: {'a': 4, '100': 8, 'b': 5, '50': 6, '1000': 5}
-Symbol_table before: {}
-Symbol_table child: {}
-Symbol_table child: {}
-Symbol_table child: {}
-Symbol_table child: {'a': 4, '100': 8, 'b': 5, '50': 6, '1000': 5}
-Symbol_table after: {'a': 4, '100': 8, 'b': 5, '50': 6, '1000': 5}
-Symbol_table before: {}
-Symbol_table child: {'a': 4, '100': 8, 'b': 5, '50': 6, '1000': 5}
-Symbol_table after: {'a': 4, '100': 8, 'b': 5, '50': 6, '1000': 5}
-Symbol Table: {'a': 4, '100': 8, 'b': 5, '50': 6, '1000': 5}
+['a > 50 || a > 10', 'b < 200', '']
+a > 50 || a > 10
+CursorKind.COMPOUND_STMT
+CursorKind.IF_STMT {'a': 4, '10': 8, 'b': 5, '50': 6, '100': 11, '1000': 5}
+['b < 200', '']
+b < 200
+CursorKind.COMPOUND_STMT
+Symbol Table: {'a': 4, '10': 8, 'b': 5, '200': 14, '300': 16, '50': 6, '100': 11, '1000': 5}

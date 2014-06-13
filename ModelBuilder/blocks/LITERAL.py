@@ -25,6 +25,9 @@ class LITERAL(Block):
         Block.__init__(self, node)
         self.value = node.get("TokenKind.LITERAL")
 
+    def __str__(self):
+        return self.value
+
     def add_to_model(self, h):
         vertex = h.add_node()
         h.vs[vertex]['mm__'] = "Constant"
