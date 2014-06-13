@@ -1,19 +1,28 @@
 
 
-from XML import *
 class Block:
 
-    def __init__(self):
-        pass
+    def __init__(self, node):
+        self.children = []
+        self.kind = node.get('kind')
+        self.parent = None
+        self.vertex = None
 
-    @staticmethod
-    def createBlock(xmlNode):
+    def add_child(self, child):
+        self.children.append(child)
 
-        node_kind = xmlNode.get('kind')
-        print(node_kind)
+    def add_parent(self, parent):
+        self.parent = parent
 
-        Block.load_class("./XML.XML")
+    def add_to_model(self, h):
+        for child in self.children:
+            child.add_to_model(h)
 
-    #function to dynamically load a new class
+        vertex = h.add_node()
+        h.vs[vertex]['mm__'] = self.kind
 
-    @staticmethod
+        self.vertex = vertex
+
+        for child in self.children:
+            h.add_edge(vertex, child.vertex)
+
