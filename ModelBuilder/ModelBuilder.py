@@ -51,28 +51,8 @@ class ModelBuilder:
             self.build_structure(child, block)
 
 
-        # #set the variable to be set to the child,
-        # # (the RHS of the declaration) if the variable was given a value
-        # #otherwise, ignore this variable
-        #
-        # elif node_kind == "CursorKind.VAR_DECL":
-        #     var_name = node.get('spelling')
-        #     #self.symbol_table[var_name] = child_results[0]
-        #
-        #     if len(child_results) > 0:
-        #         block_num, _ = child_results[0]
-        #         print("Creating: " + str({var_name : block_num}))
-        #         symbol_table.update({var_name: block_num})
-        #         return block_num, symbol_table
-        #     else:
-        #         print("Returning: " + str(symbol_table))
-        #         return None, symbol_table
-        #
-        # elif node_kind == "CursorKind.DECL_REF_EXPR":
-        #     var_name = node.get('TokenKind.IDENTIFIER')
-        #     block_num = symbol_table[var_name]
-        #     return block_num, symbol_table
-        #
+
+
 
 
         # elif node_kind == "CursorKind.IF_STMT":

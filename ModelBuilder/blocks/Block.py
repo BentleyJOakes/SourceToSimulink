@@ -25,7 +25,7 @@ class Block:
         self.vertex = vertex
 
         for child in self.children:
-            h.add_edge(child.vertex, vertex)
+            h.add_edge(vertex, child.vertex)
 
         self.collect_childrens_symbol_table()
 

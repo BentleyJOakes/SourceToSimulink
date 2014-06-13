@@ -44,6 +44,7 @@ class BINARY_OPERATOR(Block):
 
     def add_to_model(self, h):
         for child in self.children:
+            child.symbol_table = self.symbol_table
             child.add_to_model(h)
 
         vertex = h.add_node()
@@ -52,6 +53,6 @@ class BINARY_OPERATOR(Block):
         self.vertex = vertex
 
         for child in self.children:
-            h.add_edge(child.vertex, vertex)
+            h.add_edge(vertex, child.vertex)
 
         self.collect_childrens_symbol_table()

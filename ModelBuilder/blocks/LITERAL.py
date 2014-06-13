@@ -31,7 +31,4 @@ class LITERAL(Block):
         h.vs[vertex]['value'] = self.value
         self.vertex = vertex
 
-        for child in self.children:
-            h.add_edge(child.vertex, vertex)
-
         self.store_in_symbol_table(self.value, vertex)
