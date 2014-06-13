@@ -7,14 +7,11 @@ Couldn't find blocks.TYPEDEF_DECL
 Couldn't find blocks.TYPEDEF_DECL
 Couldn't find blocks.TYPEDEF_DECL
 Couldn't find blocks.TYPE_REF
-Couldn't find blocks.PARM_DECL
-Couldn't find blocks.COMPOUND_STMT
 Couldn't find blocks.DECL_STMT
 Couldn't find blocks.VAR_DECL
 Couldn't find blocks.IF_STMT
 Couldn't find blocks.UNEXPOSED_EXPR
 Couldn't find blocks.DECL_REF_EXPR
-Couldn't find blocks.COMPOUND_STMT
 Couldn't find blocks.DECL_REF_EXPR
 Symbol_table before: {}
 Symbol_table after: {}
@@ -26,13 +23,11 @@ Symbol_table before: {}
 Symbol_table child: {}
 Symbol_table after: {}
 Symbol_table before: {}
-Symbol_table after: {}
-Symbol_table before: {}
 Symbol_table child: {'1000': 5}
 Symbol_table after: {'1000': 5}
-Symbol_table before: {}
+Symbol_table before: {'a': 4}
 Symbol_table child: {'1000': 5}
-Symbol_table after: {'1000': 5}
+Symbol_table after: {'a': 4, '1000': 5}
 Symbol_table before: {}
 Symbol_table after: {}
 Symbol_table before: {}
@@ -48,28 +43,17 @@ Symbol_table before: {}
 Symbol_table child: {}
 Symbol_table child: {'100': 13}
 Symbol_table after: {'100': 13}
-Symbol_table before: {}
-Symbol_table child: {'100': 13}
-Symbol_table after: {'100': 13}
-Symbol_table before: {}
+Symbol_table before: {'a': 4, '1000': 5}
 Symbol_table child: {'50': 10}
 Symbol_table child: {'100': 13}
-Symbol_table after: {'100': 13, '50': 10}
-Symbol_table before: {}
-Symbol_table child: {'1000': 5}
-Symbol_table child: {'100': 13, '50': 10}
-Symbol_table after: {'100': 13, '50': 10, '1000': 5}
-Symbol_table before: {}
-Symbol_table child: {}
-Symbol_table child: {'100': 13, '50': 10, '1000': 5}
-Symbol_table after: {'100': 13, '50': 10, '1000': 5}
+Symbol_table after: {'a': 4, '100': 13, '50': 10, '1000': 5}
 Symbol_table before: {}
 Symbol_table child: {}
 Symbol_table child: {}
 Symbol_table child: {}
-Symbol_table child: {'100': 13, '50': 10, '1000': 5}
-Symbol_table after: {'100': 13, '50': 10, '1000': 5}
+Symbol_table child: {'a': 4, '100': 13, '50': 10, '1000': 5}
+Symbol_table after: {'a': 4, '100': 13, '50': 10, '1000': 5}
 Symbol_table before: {}
-Symbol_table child: {'100': 13, '50': 10, '1000': 5}
-Symbol_table after: {'100': 13, '50': 10, '1000': 5}
-Symbol Table: {'100': 13, '50': 10, '1000': 5}
+Symbol_table child: {'a': 4, '100': 13, '50': 10, '1000': 5}
+Symbol_table after: {'a': 4, '100': 13, '50': 10, '1000': 5}
+Symbol Table: {'a': 4, '100': 13, '50': 10, '1000': 5}

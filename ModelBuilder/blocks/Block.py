@@ -25,7 +25,7 @@ class Block:
         self.vertex = vertex
 
         for child in self.children:
-            h.add_edge(vertex, child.vertex)
+            h.add_edge(child.vertex, vertex)
 
         self.collect_childrens_symbol_table()
 
@@ -38,4 +38,4 @@ class Block:
         print("Symbol_table after: " + str(self.symbol_table))
 
     def store_in_symbol_table(self, name, value):
-        self.symbol_table[self.value] = value
+        self.symbol_table[name] = value
